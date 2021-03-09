@@ -1,0 +1,10 @@
+coverage==4.5.4
+numpydoc==0.8.0
+pytest==4.3.1
+pytest-cov==2.7.1
+pytest-flakes==4.0.0
+pytest-mock==1.10.4
+pytest-mpl==0.10
+pytest-pylint==0.14.1
+sphinx==1.8.5
+sphinx-gallery==0.4.0

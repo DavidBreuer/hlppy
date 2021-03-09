@@ -1,0 +1,16 @@
+[MESSAGES CONTROL]
+
+# https://stackoverflow.com/questions/4341746/how-do-i-disable-a-pylint-warning
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time.
+
+# enable=
+
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once).
+
+disable=unsubscriptable-object,not-an-iterable,unexpected-keyword-arg,not-callable,no-member

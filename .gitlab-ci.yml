@@ -1,0 +1,54 @@
+image: docker:19.03.0
+
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  DOCKER_TLS_CERTDIR: ''
+
+services:
+  - docker:19.03.0-dind
+
+stages:
+  - build
+  - deploy
+  - clean
+  - produce
+
+build:
+  stage: build
+  script:
+    - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CONTAINER_RELEASE_IMAGE || true
+    - docker build --cache-from $CONTAINER_RELEASE_IMAGE --tag $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+
+pages:
+  stage: deploy
+  image: ${CONTAINER_RELEASE_IMAGE}
+  script:
+    - make tests
+    - make docs
+    - mv docs/build/html public
+  coverage: '/^TOTAL\s+\d+\s+\d+\s+(\d+%)/'
+  artifacts:
+    paths:
+    - public
+
+clean:
+  stage: clean
+  script:
+    - rm -rf "$CACHE_PATH"*
+  when: always
+
+produce:
+  stage: produce
+  environment: production
+  when: manual
+  script:
+    - echo "Deploy master branch to production."
+  only:
+    refs:
+      - master
+  except:
+    - schedules
