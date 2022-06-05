@@ -12,7 +12,7 @@ stages:
   - build
   - deploy
   - clean
-  - produce
+  - publish
 
 build:
   stage: build
@@ -41,9 +41,8 @@ clean:
     - rm -rf "$CACHE_PATH"*
   when: always
 
-produce:
-  stage: produce
-  environment: production
+publish:
+  stage: publish
   when: manual
   script:
     - echo "Deploy master branch to production."
